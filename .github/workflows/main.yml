@@ -10,31 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+    - run: |
+        sudo add-apt-repository ppa:git-core/ppa
+        sudo apt-get install git-svn
     - id: load
       uses: actions/cache/restore@v3
       with:
-        path: | 
-          .git
-          /usr/share/perl5/Git/SVN
-          /usr/share/perl5/Git/SVN.pm
-          /usr/lib/git-core/git-svn
+        path: .git
         key: git-cache
     - if: steps.load.cache-hit != 'true'
-      run: |
-        sudo add-apt-repository ppa:git-core/ppa
-        sudo apt-get install git-svn
-        git svn init https://subversion.assembla.com/svn/chdk/trunk/
-         
+      run: git svn init https://subversion.assembla.com/svn/chdk/trunk/     
     - run: |
         echo guest|git svn fetch --username guest
     
     - uses: actions/cache/save@v3
       with:
-        path: | 
-          .git
-          /usr/share/perl5/Git/SVN
-          /usr/share/perl5/Git/SVN.pm
-          /usr/lib/git-core/git-svn
+        path: .git
         key: git-cache
     - run: git push
