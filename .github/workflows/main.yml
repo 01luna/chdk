@@ -1,0 +1,20 @@
+name: mirror
+permissions: write-all
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 0 * * *'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+    - name: use cached .git
+      uses: actions/cache@v1.2.1
+      with:
+        path: .git
+        key: .git-cache
+    - run: git svn init https://subversion.assembla.com/svn/chdk/trunk/
+    - run: echo guest|git svn fetch --username guest
+    - run: git push
+      
