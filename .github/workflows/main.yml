@@ -16,7 +16,8 @@ jobs:
       with:
         path: | 
           .git
-          /usr/share/perl5/Git/
+          /usr/share/perl5/Git/SVN
+          /usr/share/perl5/Git/SVN.pm
           /usr/lib/git-core/git-svn
         key: cache  
     - if: steps.load.cache-hit != 'true'
@@ -32,7 +33,8 @@ jobs:
       with:
         path: | 
           .git
-          /usr/share/perl5/Git/
+          /usr/share/perl5/Git/SVN
+          /usr/share/perl5/Git/SVN.pm
           /usr/lib/git-core/git-svn
         key: cache
     - run: git push
