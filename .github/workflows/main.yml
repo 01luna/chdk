@@ -9,12 +9,15 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
-    - name: use cached .git
-      uses: actions/cache@v1.2.1
+    - uses: actions/checkout@v3
+    - uses: actions/cache/restore@v3
       with:
         path: .git
-        key: .git-cache
+        key: .git
     - run: git svn init https://subversion.assembla.com/svn/chdk/trunk/
     - run: echo guest|git svn fetch --username guest
+    - uses: actions/cache/save@v3
+      with:
+        path: .git
+        key: .git
     - run: git push
-      
