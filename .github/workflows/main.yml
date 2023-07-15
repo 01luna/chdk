@@ -9,14 +9,18 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
-    - run: sudo apt install git-svn
     - uses: actions/checkout@v3
     - uses: actions/cache/restore@v3
       with:
         path: .git
         key: .git
-    - run: git svn init https://subversion.assembla.com/svn/chdk/trunk/
-    - run: echo guest|git svn fetch --username guest
+    - uses: awalsh128/cache-apt-pkgs-action@v1
+      with:
+        packages: git-svn
+        version: 1.0
+    - run: |
+        git svn init https://subversion.assembla.com/svn/chdk/trunk/
+        echo guest|git svn fetch --username guest
     - uses: actions/cache/save@v3
       with:
         path: .git
