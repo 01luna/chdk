@@ -1,4 +1,4 @@
-name: mirror
+name: Fetch Changes
 permissions: write-all
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - id: cache
+    - id: load
       uses: actions/cache/restore@v3
       with:
         path: | 
@@ -19,8 +19,7 @@ jobs:
           /usr/share/perl5/Git/
           /usr/lib/git-core/git-svn
         key: cache  
-        
-    - if: steps.cache.cache-hit != 'true'
+    - if: steps.load.cache-hit != 'true'
       run: |
         sudo add-apt-repository ppa:git-core/ppa
         sudo apt-get install git-svn
@@ -28,6 +27,7 @@ jobs:
          
     - run: |
         echo guest|git svn fetch --username guest
+    
     - uses: actions/cache/save@v3
       with:
         path: | 
