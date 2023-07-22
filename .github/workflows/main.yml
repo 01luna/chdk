@@ -18,7 +18,7 @@ jobs:
       with:
         path: .git
         key: git-cache
-    - if: steps.load.cache-hit != 'true'
+    - if: steps.load.outputs.cache-hit != 'true'
       run: git svn init https://subversion.assembla.com/svn/chdk/trunk/     
     - run: |
         echo guest|git svn fetch --username guest
